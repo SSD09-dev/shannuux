@@ -35,4 +35,5 @@ export const kissanPages = [
   { asset: page17, title: "Ecommerce Web Experience", description: "Desktop ecommerce customer and retailer experiences." },
   { asset: page18, title: "Web Experience Design Flow", description: "Connected web screens for the ecommerce platform." },
   { asset: page19, title: "Future Scope, Outcome & Reflection", description: "Future enhancements, a unified experience, operational efficiency, a scalable design foundation and reflection." },
+  { asset: endSlide, title: "What I Worked to Solve & Thank You", description: "Bringing agricultural commerce and operational workflows together into a connected digital experience. A note on NDA confidentiality. Thanks for stopping by." },
 ];
