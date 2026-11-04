@@ -157,7 +157,7 @@ function Index() {
               <article key={w.title} className="grid items-center gap-10 md:grid-cols-[1fr_1.4fr]">
                 <div>
                   <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">
-                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="text-left text-inherit font-inherit hover:text-muted-foreground">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="rounded-md transition-colors hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
+                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="rounded-md transition-colors hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
                   {w.nda && (
