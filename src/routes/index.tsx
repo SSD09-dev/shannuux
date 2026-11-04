@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Home, Heart, Smile, Globe, Lock, ArrowUpRight, Mail } from "lucide-react";
+import { Home, Heart, Smile, Globe, ArrowUpRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/components/project-dialog";
+import signature from "@/assets/signature.png.asset.json";
 
 import portraitHero from "@/assets/portrait-hero.jpg";
 import portraitAbout from "@/assets/portrait-about.jpg";
