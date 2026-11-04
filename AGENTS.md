@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep full project case studies in dedicated TanStack routes; use accessible Radix dialogs for NDA project previews so navigation and focus behavior stay predictable.
+- Render original case-study pages through CDN asset pointers with accessible descriptions and zoom controls to retain source typography, diagrams, and layouts.

@@ -14,4 +14,9 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("opens Kissan Agri Mall at its dedicated case study route", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes("/work/kissan-agri-mall").at(-1)?.routeId).toBe("/work/kissan-agri-mall");
+  });
 });
