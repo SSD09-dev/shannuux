@@ -14,7 +14,7 @@ import page15 from "@/assets/portfolio-page-15.jpg.asset.json";
 import page16 from "@/assets/portfolio-page-16.jpg.asset.json";
 import page17 from "@/assets/portfolio-page-17.jpg.asset.json";
 import page18 from "@/assets/portfolio-page-18.jpg.asset.json";
-import page19 from "@/assets/portfolio-page-19.jpg.asset.json";
+import page19 from "@/assets/kissan-futurescope.png.asset.json";
 import endSlide from "@/assets/kissan-endslide.png.asset.json";
 
 export const kissanPages = [
