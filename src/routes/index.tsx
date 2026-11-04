@@ -4,6 +4,7 @@ import { Home, Heart, Smile, Globe, ArrowUpRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/components/project-dialog";
 import signature from "@/assets/signature.png.asset.json";
+import glassOfWater from "@/assets/glass-of-water.png.asset.json";
 
 import portraitHero from "@/assets/portrait-hero.jpg";
 import portraitAbout from "@/assets/portrait-about.jpg";
@@ -259,7 +260,10 @@ function Index() {
             ))}
           </div>
           <div className="mt-24 flex flex-col items-center gap-8">
-            <p className="glass heading-mono rounded-full px-8 py-4 text-lg">Thanks for stopping by. 🥤</p>
+            <p className="glass heading-mono flex items-center gap-3 rounded-full px-8 py-3 text-lg">
+              Thanks for stopping by.
+              <img src={glassOfWater.url} alt="" className="h-9 w-auto" />
+            </p>
             <img
               src={signature.url}
               alt="Signature of Shanmukha Sai"
