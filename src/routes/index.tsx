@@ -160,12 +160,6 @@ function Index() {
                     {w.nda ? <Button onClick={() => setSelectedProject(w)} className="text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="rounded-md transition-colors hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
-                  {w.nda && (
-                    <p className="glass mt-6 flex items-start gap-2 rounded-2xl p-4 text-sm text-muted-foreground">
-                      <Lock className="mt-0.5 size-4 shrink-0" />
-                      Covered by a non-disclosure agreement. Only design work I'm permitted to showcase is shared.
-                    </p>
-                  )}
                 </div>
                 <div className="glass glass-hover group rounded-[2rem] p-4">
                   {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="block w-full overflow-hidden rounded-2xl">
@@ -263,8 +257,13 @@ function Index() {
               </a>
             ))}
           </div>
-          <div className="mt-24 flex justify-center">
+          <div className="mt-24 flex flex-col items-center gap-8">
             <p className="glass heading-mono rounded-full px-8 py-4 text-lg">Thanks for stopping by. 🥤</p>
+            <img
+              src={signature.url}
+              alt="Signature of Shanmukha Sai"
+              className="h-12 w-[284px] object-contain opacity-90"
+            />
           </div>
         </section>
       </main>
