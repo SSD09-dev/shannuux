@@ -15,6 +15,7 @@ import page16 from "@/assets/portfolio-page-16.jpg.asset.json";
 import page17 from "@/assets/portfolio-page-17.jpg.asset.json";
 import page18 from "@/assets/portfolio-page-18.jpg.asset.json";
 import page19 from "@/assets/portfolio-page-19.jpg.asset.json";
+import endSlide from "@/assets/kissan-endslide.png.asset.json";
 
 export const kissanPages = [
   { asset: page03, title: "Kissan Agri Mall", description: "Transforming agricultural commerce through a unified B2B + B2C digital ecosystem." },
