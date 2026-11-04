@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Home, Heart, Smile, Globe, Lock, ArrowUpRight, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectDialog } from "@/components/project-dialog";
 
 import portraitHero from "@/assets/portrait-hero.jpg";
 import portraitAbout from "@/assets/portrait-about.jpg";
@@ -33,6 +35,8 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Selected work: Kissan Agri Mall, Medikto, Kanchira and DFS Loan.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -123,9 +127,11 @@ function Tag({ children }: { children: string }) {
 }
 
 function Index() {
+  const [selectedProject, setSelectedProject] = useState<(typeof works)[number] | null>(null);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SideNav />
+      <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />
       <main className="mx-auto max-w-6xl px-6 pb-32 md:pl-28">
         {/* Intro */}
         <section id="home" className="flex min-h-screen items-center py-16">
@@ -150,7 +156,9 @@ function Index() {
             {works.map((w) => (
               <article key={w.title} className="grid items-center gap-10 md:grid-cols-[1fr_1.4fr]">
                 <div>
-                  <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">{w.title}</h3>
+                  <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="rounded-md transition-colors hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
+                  </h3>
                   <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
                   {w.nda && (
                     <p className="glass mt-6 flex items-start gap-2 rounded-2xl p-4 text-sm text-muted-foreground">
@@ -160,14 +168,14 @@ function Index() {
                   )}
                 </div>
                 <div className="glass glass-hover group rounded-[2rem] p-4">
-                  <div className="overflow-hidden rounded-2xl">
+                  {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="block w-full overflow-hidden rounded-2xl">
                     <img
                       src={w.img}
                       alt={`${w.title} project preview`}
                       loading="lazy"
                       className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
                     />
-                  </div>
+                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /></Link>}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {w.tags.map((t) => (
                       <Tag key={t}>{t}</Tag>
