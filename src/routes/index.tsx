@@ -240,8 +240,8 @@ function Index() {
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
               { label: "Email", value: "shannuux@gmail.com", href: "mailto:shannuux@gmail.com", icon: Mail },
-              { label: "LinkedIn", value: "Connect", href: "https://www.linkedin.com", icon: ArrowUpRight },
-              { label: "Behance", value: "View projects", href: "https://www.behance.net", icon: ArrowUpRight },
+              { label: "LinkedIn", value: "Connect", href: "https://www.linkedin.com/in/shanmukhasai009/", icon: ArrowUpRight },
+              { label: "Behance", value: "View projects", href: "https://www.behance.net/shannusai", icon: ArrowUpRight },
             ].map(({ label, value, href, icon: Icon }) => (
               <a
                 key={label}
