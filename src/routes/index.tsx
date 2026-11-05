@@ -226,12 +226,29 @@ function Index() {
           </div>
 
           <h3 className="mt-16 text-2xl font-semibold tracking-tight">The Way I See Things</h3>
-          <div className="mt-6 flex flex-wrap items-end gap-4">
-            {sketches.map((s, i) => (
-              <div key={i} className="glass glass-hover rounded-xl p-2">
-                <img src={s} alt="Pencil sketch by Shanmukha" loading="lazy" className="h-48 w-auto rounded-lg md:h-56" />
-              </div>
-            ))}
+          <div className="mt-6 grid grid-cols-2 items-start gap-4 md:flex md:flex-wrap md:items-end">
+            {sketches.map((s, i) => {
+              const isLast = i === sketches.length - 1;
+              return (
+                <div
+                  key={i}
+                  className={
+                    "glass glass-hover rounded-xl p-2" +
+                    (isLast ? " max-md:col-span-2 max-md:mx-auto max-md:w-fit" : "")
+                  }
+                >
+                  <img
+                    src={s}
+                    alt="Pencil sketch by Shanmukha"
+                    loading="lazy"
+                    className={
+                      "rounded-lg md:h-56 md:w-auto" +
+                      (isLast ? " max-md:h-auto max-md:w-[calc(50%-1.5rem)]" : " max-md:w-full")
+                    }
+                  />
+                </div>
+              );
+            })}
           </div>
         </section>
 
