@@ -146,7 +146,7 @@ function Index() {
             <img
               src={portraitHero}
               alt="Portrait of Shanmukha Sai"
-              className="h-full max-h-[32rem] w-full self-stretch object-cover grayscale max-md:rounded-b-[2.5rem] md:rounded-r-[2.5rem]"
+              className="h-full w-full self-stretch object-cover grayscale max-md:rounded-b-[2.5rem] md:rounded-r-[2.5rem]"
             />
           </div>
         </section>
