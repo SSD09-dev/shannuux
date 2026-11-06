@@ -234,7 +234,7 @@ function Index() {
                   key={i}
                   className={
                     "glass glass-hover rounded-xl p-2" +
-                    (isLast ? " max-md:col-span-2 max-md:mx-auto max-md:w-fit" : "")
+                    (isLast ? " max-md:col-span-2 max-md:mx-auto max-md:w-[calc(50%-0.5rem)]" : "")
                   }
                 >
                   <img
@@ -242,8 +242,7 @@ function Index() {
                     alt="Pencil sketch by Shanmukha"
                     loading="lazy"
                     className={
-                      "rounded-lg md:h-56 md:w-auto" +
-                      (isLast ? " max-md:h-auto max-md:w-[calc(50%-1.5rem)]" : " max-md:w-full")
+                      "rounded-lg max-md:aspect-[3/4] max-md:w-full max-md:object-cover md:h-56 md:w-auto"
                     }
                   />
                 </div>
