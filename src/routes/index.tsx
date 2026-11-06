@@ -143,13 +143,11 @@ function Index() {
               <h1 className="font-display mt-2 text-5xl tracking-wide italic md:text-7xl">SHANMUKHA SAI</h1>
               <p className="mt-4 text-lg text-muted-foreground">Product Designer with three years of experience.</p>
             </div>
-            <div className="self-stretch p-3 max-md:pt-0">
-              <img
-                src={portraitHero}
-                alt="Portrait of Shanmukha Sai"
-                className="h-full w-full rounded-[2rem] object-cover grayscale"
-              />
-            </div>
+            <img
+              src={portraitHero}
+              alt="Portrait of Shanmukha Sai"
+              className="h-full w-full self-stretch object-cover grayscale max-md:rounded-b-[2.5rem] md:rounded-r-[2.5rem]"
+            />
           </div>
         </section>
 
