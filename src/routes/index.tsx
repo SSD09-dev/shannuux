@@ -143,11 +143,13 @@ function Index() {
               <h1 className="font-display mt-2 text-5xl tracking-wide italic md:text-7xl">SHANMUKHA SAI</h1>
               <p className="mt-4 text-lg text-muted-foreground">Product Designer with three years of experience.</p>
             </div>
-            <img
-              src={portraitHero}
-              alt="Portrait of Shanmukha Sai"
-              className="h-full w-full self-stretch object-cover grayscale max-md:rounded-b-[2.5rem] md:rounded-r-[2.5rem]"
-            />
+            <div className="self-stretch p-3 max-md:pt-0">
+              <img
+                src={portraitHero}
+                alt="Portrait of Shanmukha Sai"
+                className="h-full w-full rounded-[2rem] object-cover grayscale"
+              />
+            </div>
           </div>
         </section>
 
@@ -176,6 +178,26 @@ function Index() {
                     {w.tags.map((t) => (
                       <Tag key={t}>{t}</Tag>
                     ))}
+                  </div>
+                  <div className="grid transition-all duration-300 md:grid-rows-[0fr] md:opacity-0 md:group-hover:grid-rows-[1fr] md:group-hover:opacity-100 md:group-focus-within:grid-rows-[1fr] md:group-focus-within:opacity-100">
+                    <div className="overflow-hidden">
+                      {w.nda ? (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedProject(w)}
+                          className="glass glass-hover mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          Explore project <ArrowUpRight className="size-4" />
+                        </button>
+                      ) : (
+                        <Link
+                          to="/work/kissan-agri-mall"
+                          className="glass glass-hover mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          View case study <ArrowUpRight className="size-4" />
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </article>
@@ -276,9 +298,9 @@ function Index() {
             ))}
           </div>
           <div className="mt-24 flex flex-col items-center gap-8">
-            <p className="glass heading-mono flex items-center gap-3 rounded-full px-8 py-3 text-lg">
+            <p className="glass heading-mono flex items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm sm:gap-3 sm:px-8 sm:py-3 sm:text-lg">
               Thanks for stopping by.
-              <img src={glassOfWater.url} alt="" className="h-9 w-auto" />
+              <img src={glassOfWater.url} alt="" className="h-6 w-auto shrink-0 sm:h-9" />
             </p>
             <img
               src={signature.url}
