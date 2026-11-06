@@ -14,6 +14,8 @@ import page15 from "@/assets/portfolio-page-15.jpg.asset.json";
 import page16 from "@/assets/portfolio-page-16.jpg.asset.json";
 import page17 from "@/assets/portfolio-page-17.jpg.asset.json";
 import page18 from "@/assets/portfolio-page-18.jpg.asset.json";
+import kissanKcrmMocks from "@/assets/kissan-kcrm-mocks.png.asset.json";
+import kissanEmartMocks from "@/assets/kissan-emart-mocks.png.asset.json";
 import page19 from "@/assets/kissan-futurescope.png.asset.json";
 import endSlide from "@/assets/kissan-endslide.png.asset.json";
 
@@ -34,6 +36,8 @@ export const kissanPages = [
   { asset: page16, title: "Customer Design Flow", description: "Detailed customer mobile screens and connected design flow." },
   { asset: page17, title: "Ecommerce Web Experience", description: "Desktop ecommerce customer and retailer experiences." },
   { asset: page18, title: "Web Experience Design Flow", description: "Connected web screens for the ecommerce platform." },
+  { asset: kissanKcrmMocks, title: "KCRM Mobile Experience", description: "Telecaller, field visitor and tech advisor screens: role login, attendance summary and marking, dashboards, field visits and leaderboard." },
+  { asset: kissanEmartMocks, title: "Kissan e Mart Mobile Experience", description: "Farmer and dealer commerce screens: role login, home with offers, product detail, crop advisory plans, knowledge hub and franchise application." },
   { asset: page19, title: "Future Scope, Outcome & Reflection", description: "Future enhancements, a unified experience, operational efficiency, a scalable design foundation and reflection.", narrow: true },
   { asset: endSlide, title: "What I Worked to Solve & Thank You", description: "Bringing agricultural commerce and operational workflows together into a connected digital experience. A note on NDA confidentiality. Thanks for stopping by." },
 ];
