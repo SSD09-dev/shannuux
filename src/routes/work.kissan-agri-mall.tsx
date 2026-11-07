@@ -35,7 +35,7 @@ function KissanCaseStudy() {
             <section key={page.title} aria-label={page.title}>
               <h2 className="sr-only">{page.title}</h2>
               <p className="sr-only">{page.description}</p>
-              <div className={page.narrow ? "mx-auto w-full max-w-[900px] px-4" : undefined}>
+              <div className={page.narrow ? `mx-auto w-full px-4 ${page.compact ? "max-w-[640px]" : "max-w-[900px]"}` : undefined}>
                 <img src={page.asset.url} alt={`${page.title}: ${page.description}`} width={1800} height={1200} loading={index === 0 ? "eager" : "lazy"} className="block h-auto w-full" />
               </div>
             </section>
