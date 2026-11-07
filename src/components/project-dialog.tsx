@@ -39,6 +39,7 @@ const details: Record<string, { images: { url: string; alt: string; wide?: boole
 };
 
 export function ProjectDialog({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  const detail = project ? details[project.title] : undefined;
   return (
     <Dialog.Root open={project !== null} onOpenChange={(open) => { if (!open) onClose(); }}>
       <Dialog.Portal>
@@ -51,9 +52,9 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
             </div>
             <Dialog.Description className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{details[project.title]?.description ?? project.desc}</Dialog.Description>
             <div className="mt-5 flex flex-wrap gap-2">{project.tags.map(tag => <span key={tag} className="rounded-full border border-border bg-surface/70 px-3 py-1.5 text-sm">{tag}</span>)}</div>
-            {details[project.title] ? (
-              <div className={`mt-6 grid items-start gap-3 sm:gap-4 ${details[project.title].layout}`}>
-                {details[project.title].images.map((image) => (
+            {detail ? (
+              <div className={`mt-6 grid items-start gap-3 sm:gap-4 ${detail.layout}`}>
+                {detail.images.map((image) => (
                   <img key={image.url} src={image.url} alt={image.alt} decoding="async" className={`block h-auto w-full min-w-0 object-contain ${image.wide ? "col-span-full mx-auto max-w-2xl" : ""}`} />
                 ))}
               </div>
