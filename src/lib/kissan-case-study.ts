@@ -28,7 +28,7 @@ export const kissanPages = [
   { asset: page07, title: "Connected Product Ecosystem", description: "Role-based e-commerce and CRM experiences and connected operational workflows." },
   { asset: page08, title: "Discovery", description: "Understanding users, operations and platform workflows. User roles, workflow observation, platform ecosystem and key insights." },
   { asset: page09, title: "User Segments", description: "Designing for customers, retailers, telecallers and field visitors across the ecosystem." },
-  { asset: keyDecisions, title: "Key Design Decisions", description: "Connecting users, operations and business goals: role-based UX, mobile selfie attendance, gamification with points and leaderboards, and business-led features.", narrow: true },
+  { asset: keyDecisions, title: "Key Design Decisions", description: "Connecting users, operations and business goals: role-based UX, mobile selfie attendance, gamification with points and leaderboards, and business-led features.", narrow: true, compact: true },
   { asset: page10, title: "E-Commerce Information Architecture", description: "Customer and retailer role-based navigation systems for the connected agricultural commerce ecosystem." },
   { asset: page11, title: "CRM Information Architecture", description: "Operational workflows for telecallers and field visitors." },
   { asset: page12, title: "E-Commerce Userflows", description: "Customer and retailer commerce journeys." },
