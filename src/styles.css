@@ -57,6 +57,7 @@
   --font-script: "Yellowtail", cursive;
   --color-surface: var(--surface);
   --color-glass: var(--glass);
+  --color-status-live: var(--status-live);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -75,6 +76,7 @@
   --card-foreground: oklch(0.985 0 0);
   --surface: oklch(0.36 0.005 0);             /* #3F3A3B */
   --glass: oklch(1 0 0 / 6%);
+  --status-live: oklch(0.78 0.18 150);
   --popover: oklch(0.26 0.006 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);

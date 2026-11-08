@@ -12,3 +12,4 @@
 - Keep full project case studies in dedicated TanStack routes; use accessible Radix dialogs for NDA project previews so navigation and focus behavior stay predictable.
 - Render original case-study pages through CDN asset pointers with accessible descriptions and zoom controls to retain source typography, diagrams, and layouts.
 - Split uploaded preview PDF sheets only at empty gaps between complete screens and render CDN-backed images in adaptive grids with natural aspect ratios, so smaller devices retain every screen without cropping.
+- Keep live project destinations and project-specific notes in shared browser-safe data, rendering external actions as accessible links within the existing project dialog.

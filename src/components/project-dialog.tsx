@@ -1,6 +1,13 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Lock, X } from "lucide-react";
+import { Lock, X, Globe, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { hloxpat } from "@/lib/hloxpat";
+import hloxpat1 from "@/assets/hloxpat-screen-1.jpg.asset.json";
+import hloxpat2 from "@/assets/hloxpat-screen-2.jpg.asset.json";
+import hloxpat3 from "@/assets/hloxpat-screen-3.jpg.asset.json";
+import hloxpat4 from "@/assets/hloxpat-screen-4.jpg.asset.json";
+import hloxpatConnected from "@/assets/hloxpat-connected-screens.jpg.asset.json";
+import hloxpat9 from "@/assets/hloxpat-screen-9.jpg.asset.json";
 import medikto1 from "@/assets/medikto-screen-1.png.asset.json";
 import medikto2 from "@/assets/medikto-screen-2.png.asset.json";
 import medikto3 from "@/assets/medikto-screen-3.png.asset.json";
@@ -17,6 +24,14 @@ import dfs6 from "@/assets/dfs-screen-6.png.asset.json";
 
 type Project = { title: string; desc: string; img: string; tags: string[] };
 const details: Record<string, { images: { url: string; alt: string; wide?: boolean }[]; layout: string; description: string }> = {
+  HloXpat: { images: [
+    { url: hloxpat1.url, alt: "HloXpat welcome: connect, discover and belong" },
+    { url: hloxpat2.url, alt: "HloXpat community feed and updates" },
+    { url: hloxpat3.url, alt: "HloXpat discover people, services and essentials" },
+    { url: hloxpat4.url, alt: "HloXpat profile, followers and loyalty points" },
+    { url: hloxpatConnected.url, alt: "HloXpat posts, chat conversations, messaging and community groups with complete overlapping phone mockups", wide: true },
+    { url: hloxpat9.url, alt: "HloXpat comments and discussions" },
+  ], layout: "grid-cols-2 lg:grid-cols-4", description: hloxpat.description },
   Medikto: { images: [
     { url: medikto1.url, alt: "Medikto home and health records overview" },
     { url: medikto2.url, alt: "Medikto medical reports library" },
@@ -55,11 +70,12 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
             {detail ? (
               <div className={`mt-6 grid items-start gap-3 sm:gap-4 ${detail.layout}`}>
                 {detail.images.map((image) => (
-                  <img key={image.url} src={image.url} alt={image.alt} decoding="async" className={`block w-full min-w-0 rounded-lg object-contain ${project.title === "Kanchira" ? "h-auto" : image.wide ? "col-span-full mx-auto h-auto max-w-2xl" : "aspect-[0.46] h-auto"}`} />
+                  <img key={image.url} src={image.url} alt={image.alt} decoding="async" className={`block w-full min-w-0 rounded-lg object-contain ${image.wide ? "col-span-full mx-auto h-auto max-w-2xl" : project.title === "Kanchira" || project.title === "HloXpat" ? "h-auto" : "aspect-[0.46] h-auto"}`} />
                 ))}
               </div>
             ) : <img src={project.img} alt={`${project.title} detailed design screens`} className="mt-6 block h-auto w-full object-contain" />}
-            <div className="mt-6 rounded-lg bg-surface/70 p-4"><h3 className="flex items-center gap-2 font-semibold"><Lock className="size-4" />A note on this project</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">This project is covered by a non-disclosure agreement. I've shared only the design work I'm permitted to showcase, while respecting confidential information.</p></div>
+            {project.title === hloxpat.title && <div className="mt-6 flex flex-wrap gap-3">{hloxpat.links.map(link => <Button key={link.kind} asChild className="glass glass-hover rounded-full px-4 py-2 text-foreground"><a href={link.url} target="_blank" rel="noopener noreferrer">{link.kind === "app" ? <Download className="size-5" /> : <Globe className="size-5" />}{link.label}</a></Button>)}</div>}
+            <div className="mt-6 rounded-lg bg-surface/70 p-4"><h3 className="flex items-center gap-2 font-semibold"><Lock className="size-4" />A note on this project</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.title === hloxpat.title ? hloxpat.note : "This project is covered by a non-disclosure agreement. I've shared only the design work I'm permitted to showcase, while respecting confidential information."}</p></div>
           </>}
         </Dialog.Content>
       </Dialog.Portal>
