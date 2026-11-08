@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/components/project-dialog";
 import signature from "@/assets/signature.png.asset.json";
 import glassOfWater from "@/assets/glass-of-water.png.asset.json";
+import hloxpatThumbnail from "@/assets/hloxpat-thumbnail.jpg.asset.json";
+import { hloxpat } from "@/lib/hloxpat";
 
 import portraitHero from "@/assets/portrait-hero.jpg";
 import portraitAbout from "@/assets/portrait-about.jpg";
@@ -35,7 +37,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Shanmukha Sai — Product Designer" },
       {
         property: "og:description",
-        content: "Selected work: Kissan Agri Mall, Medikto, Kanchira and DFS Loan.",
+        content: "Selected work: Kissan Agri Mall, HloXpat, Medikto, Kanchira and DFS Loan.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -51,6 +53,14 @@ const works = [
     img: workKissan,
     tags: ["CRM", "B2C", "B2B", "E-commerce", "Dashboard", "Role-Based UX"],
     nda: false,
+  },
+  {
+    title: hloxpat.title,
+    desc: hloxpat.description,
+    img: hloxpatThumbnail.url,
+    tags: hloxpat.tags,
+    nda: true,
+    live: true,
   },
   {
     title: "Medikto",
@@ -164,13 +174,14 @@ function Index() {
                   <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
                 </div>
                 <div className="glass glass-hover group rounded-[2rem] p-4">
-                  {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="block w-full overflow-hidden rounded-2xl">
+                  {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="relative block w-full overflow-hidden rounded-2xl">
                     <img
                       src={w.img}
                       alt={`${w.title} project preview`}
                       loading="lazy"
                       className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
                     />
+                    {"live" in w && w.live && <span className="glass absolute left-3 top-3 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm"><span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-status-live" />Live</span>}
                   </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /></Link>}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {w.tags.map((t) => (
@@ -180,13 +191,13 @@ function Index() {
                   <div className="grid transition-all duration-300 md:grid-rows-[0fr] md:opacity-0 md:group-hover:grid-rows-[1fr] md:group-hover:opacity-100 md:group-focus-within:grid-rows-[1fr] md:group-focus-within:opacity-100">
                     <div className="overflow-hidden">
                       {w.nda ? (
-                        <button
+                        <Button
                           type="button"
                           onClick={() => setSelectedProject(w)}
                           className="glass glass-hover mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           Explore project <ArrowUpRight className="size-4" />
-                        </button>
+                        </Button>
                       ) : (
                         <Link
                           to="/work/kissan-agri-mall"
