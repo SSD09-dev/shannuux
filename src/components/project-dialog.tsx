@@ -1,19 +1,19 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Lock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import medikto1 from "@/assets/medikto-screen-1.jpg.asset.json";
-import medikto2 from "@/assets/medikto-screen-2.jpg.asset.json";
-import medikto3 from "@/assets/medikto-screen-3.jpg.asset.json";
-import medikto4 from "@/assets/medikto-screen-4.jpg.asset.json";
+import medikto1 from "@/assets/medikto-screen-1.png.asset.json";
+import medikto2 from "@/assets/medikto-screen-2.png.asset.json";
+import medikto3 from "@/assets/medikto-screen-3.png.asset.json";
+import medikto4 from "@/assets/medikto-screen-4.png.asset.json";
 import kanchira1 from "@/assets/kanchira-screen-1.jpg.asset.json";
 import kanchira2 from "@/assets/kanchira-screen-2.jpg.asset.json";
 import kanchira3 from "@/assets/kanchira-screen-3.jpg.asset.json";
-import dfs1 from "@/assets/dfs-screen-1.jpg.asset.json";
-import dfs2 from "@/assets/dfs-screen-2.jpg.asset.json";
-import dfs3 from "@/assets/dfs-screen-3.jpg.asset.json";
-import dfs4 from "@/assets/dfs-screen-4.jpg.asset.json";
-import dfs5 from "@/assets/dfs-screen-5.jpg.asset.json";
-import dfs6 from "@/assets/dfs-screen-6.jpg.asset.json";
+import dfs1 from "@/assets/dfs-screen-1.png.asset.json";
+import dfs2 from "@/assets/dfs-screen-2.png.asset.json";
+import dfs3 from "@/assets/dfs-screen-3.png.asset.json";
+import dfs4 from "@/assets/dfs-screen-4.png.asset.json";
+import dfs5 from "@/assets/dfs-screen-5.png.asset.json";
+import dfs6 from "@/assets/dfs-screen-6.png.asset.json";
 
 type Project = { title: string; desc: string; img: string; tags: string[] };
 const details: Record<string, { images: { url: string; alt: string; wide?: boolean }[]; layout: string; description: string }> = {
@@ -55,7 +55,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
             {detail ? (
               <div className={`mt-6 grid items-start gap-3 sm:gap-4 ${detail.layout}`}>
                 {detail.images.map((image) => (
-                  <img key={image.url} src={image.url} alt={image.alt} decoding="async" className={`block h-auto w-full min-w-0 object-contain ${image.wide ? "col-span-full mx-auto max-w-2xl" : ""}`} />
+                  <img key={image.url} src={image.url} alt={image.alt} decoding="async" className={`block w-full min-w-0 rounded-lg object-contain ${project.title === "Kanchira" ? "h-auto" : image.wide ? "col-span-full mx-auto h-auto max-w-2xl" : "aspect-[0.46] h-auto"}`} />
                 ))}
               </div>
             ) : <img src={project.img} alt={`${project.title} detailed design screens`} className="mt-6 block h-auto w-full object-contain" />}
