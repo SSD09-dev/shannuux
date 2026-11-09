@@ -1,5 +1,5 @@
 # Project interactions
-- [ ] Remove DFS landscape artwork and add Kissan thumbnail labels, website action and Product Status in the requested closing order; verify desktop and mobile.
+- [x] Remove DFS landscape artwork and add Kissan thumbnail labels, website action and Product Status in the requested closing order; verify desktop and mobile.
 - [x] Make Kissan Agri Mall open its full original case study.
 - [x] Make the remaining projects open accessible glass-styled pop-ups.
 - [x] Verify project interactions on desktop and phone.
