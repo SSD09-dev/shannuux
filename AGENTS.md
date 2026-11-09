@@ -13,4 +13,6 @@
 - Render original case-study pages through CDN asset pointers with accessible descriptions and zoom controls to retain source typography, diagrams, and layouts.
 - Split uploaded preview PDF sheets only at empty gaps between complete screens and render CDN-backed images in adaptive grids with natural aspect ratios, so smaller devices retain every screen without cropping.
 - Keep live project destinations and project-specific notes in shared browser-safe data, rendering external actions as accessible links within the existing project dialog.
+- Keep Kissan thumbnail status and its case-study website and product-status note in shared browser-safe data so the overview and full case study stay aligned.
+- Render Kissan's closing notes as accessible text preserving the original slide wording, with matching note widths and natural heights so they remain readable on phones.
 - Render replacement composite project frames intact at their natural aspect ratio through CDN pointers, so overlapping artwork is never split or cropped.

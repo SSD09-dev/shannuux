@@ -7,6 +7,7 @@ import signature from "@/assets/signature.png.asset.json";
 import glassOfWater from "@/assets/glass-of-water.png.asset.json";
 import hloxpatThumbnail from "@/assets/hloxpat-thumbnail.jpg.asset.json";
 import { hloxpat } from "@/lib/hloxpat";
+import { kissan } from "@/lib/kissan";
 
 import portraitHero from "@/assets/portrait-hero.jpg";
 import portraitAbout from "@/assets/portrait-about.jpg";
@@ -53,6 +54,8 @@ const works = [
     img: workKissan,
     tags: ["CRM", "B2C", "B2B", "E-commerce", "Dashboard", "Role-Based UX"],
     nda: false,
+    live: kissan.live,
+    featured: kissan.featured,
   },
   {
     title: hloxpat.title,
@@ -182,7 +185,7 @@ function Index() {
                       className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                     {"live" in w && w.live && <span className="glass absolute left-3 top-3 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm"><span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-status-live" />Live</span>}
-                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /></Link>}
+                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="relative block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /><span className="absolute left-3 right-3 top-3 flex flex-wrap items-center gap-2">{w.live && <span className="glass inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm"><span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-status-live" />Live</span>}{"featured" in w && w.featured && <span className="glass inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm">Featured case study</span>}</span></Link>}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {w.tags.map((t) => (
                       <Tag key={t}>{t}</Tag>

@@ -15,7 +15,6 @@ import dfs2 from "@/assets/dfs-screen-2.png.asset.json";
 import dfs3 from "@/assets/dfs-screen-3.png.asset.json";
 import dfs4 from "@/assets/dfs-screen-4.png.asset.json";
 import dfs5 from "@/assets/dfs-screen-5.png.asset.json";
-import dfs6 from "@/assets/dfs-screen-6.png.asset.json";
 
 type Project = { title: string; desc: string; img: string; tags: string[] };
 const details: Record<string, { images: { url: string; alt: string; wide?: boolean }[]; layout: string; description: string }> = {
@@ -39,7 +38,6 @@ const details: Record<string, { images: { url: string; alt: string; wide?: boole
     { url: dfs3.url, alt: "DFS agent dashboard and loan application totals" },
     { url: dfs4.url, alt: "DFS pending payment updates" },
     { url: dfs5.url, alt: "DFS payment updated confirmation" },
-    { url: dfs6.url, alt: "DFS landscape payment table", wide: true },
   ], layout: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5", description: "A digital lending experience focused on making the loan application journey easier to navigate through clear steps, accessible information and thoughtful form design." },
 };
 
