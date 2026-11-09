@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, ZoomIn, ZoomOut } from "lucide-react";
+import { Fragment, useState } from "react";
+import { ArrowLeft, Globe, Info, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { kissanPages } from "@/lib/kissan-case-study";
+import { kissan } from "@/lib/kissan";
 
 export const Route = createFileRoute("/work/kissan-agri-mall")({
   head: () => ({ meta: [
@@ -32,13 +33,24 @@ function KissanCaseStudy() {
       <div className="overflow-x-auto" tabIndex={0} aria-label="Case study pages">
         <div className={zoomed ? "mx-auto w-[1800px]" : "mx-auto w-full max-w-[1440px]"}>
           {kissanPages.map((page, index) => (
-            <section key={page.title} aria-label={page.title}>
+            <Fragment key={page.title}>
+            {index === kissanPages.length - 1 && <section aria-labelledby="product-status-title" className="mx-auto w-full max-w-[932px] px-4 pt-8 md:pt-12">
+              <div className="mb-6 flex justify-center">
+                <Button asChild className="glass glass-hover rounded-full px-4 py-2 text-foreground"><a href={kissan.website.url} target="_blank" rel="noopener noreferrer"><Globe className="size-5" />{kissan.website.label}</a></Button>
+              </div>
+              <div className="rounded-lg bg-surface/70 p-4 md:p-6">
+                <h2 id="product-status-title" className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Info aria-hidden="true" className="size-5 shrink-0" />Product Status</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{kissan.status}</p>
+              </div>
+            </section>}
+            <section aria-label={page.title}>
               <h2 className="sr-only">{page.title}</h2>
               <p className="sr-only">{page.description}</p>
               <div className={page.narrow ? `mx-auto w-full px-4 ${page.compact ? "max-w-[640px]" : "max-w-[900px]"}` : undefined}>
                 <img src={page.asset.url} alt={`${page.title}: ${page.description}`} width={1800} height={1200} loading={index === 0 ? "eager" : "lazy"} className="block h-auto w-full" />
               </div>
             </section>
+            </Fragment>
           ))}
         </div>
       </div>
