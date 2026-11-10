@@ -1,4 +1,5 @@
 # Project interactions
+- [ ] Match home portrait corners to the reference and shrink glass project chips with a blinking Live dot; verify desktop and phone.
 - [x] Remove DFS landscape artwork and add Kissan thumbnail labels, website action and Product Status in the requested closing order; verify desktop and mobile.
 - [x] Make Kissan Agri Mall open its full original case study.
 - [x] Make the remaining projects open accessible glass-styled pop-ups.

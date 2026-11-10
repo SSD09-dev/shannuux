@@ -150,7 +150,7 @@ function Index() {
       <main className="mx-auto max-w-6xl px-6 pb-32 md:pl-28">
         {/* Intro */}
         <section id="home" className="flex min-h-screen items-center py-16">
-          <div className="panel grid w-full overflow-hidden rounded-[2.5rem] md:grid-cols-[1.5fr_1fr]">
+          <div className="panel home-panel grid w-full overflow-hidden md:grid-cols-[1.5fr_1fr]">
             <div className="flex flex-col items-center justify-center px-8 py-16 text-center">
               <p className="font-script text-3xl md:text-4xl">Hello, I'm</p>
               <h1 className="font-display mt-2 text-5xl tracking-wide italic md:text-7xl">SHANMUKHA SAI</h1>
@@ -159,7 +159,7 @@ function Index() {
             <img
               src={portraitHero}
               alt="Portrait of Shanmukha Sai"
-              className="h-full w-full self-stretch object-cover grayscale max-md:rounded-b-[2.5rem] md:rounded-r-[2.5rem]"
+              className="home-portrait block h-full w-full self-stretch object-cover grayscale"
             />
           </div>
         </section>
@@ -184,8 +184,8 @@ function Index() {
                       loading="lazy"
                       className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
                     />
-                    {"live" in w && w.live && <span className="glass absolute left-3 top-3 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm"><span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-status-live" />Live</span>}
-                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="relative block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /><span className="absolute left-3 right-3 top-3 flex flex-wrap items-center gap-2">{w.live && <span className="glass inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm"><span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-status-live" />Live</span>}{"featured" in w && w.featured && <span className="glass inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium text-foreground sm:text-sm">Featured case study</span>}</span></Link>}
+                    {"live" in w && w.live && <span className="glass project-chip absolute left-3 top-3"><span aria-hidden="true" className="live-dot" />Live</span>}
+                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="relative block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /><span className="absolute left-3 right-3 top-3 flex flex-wrap items-center gap-1.5">{w.live && <span className="glass project-chip"><span aria-hidden="true" className="live-dot" />Live</span>}{"featured" in w && w.featured && <span className="glass project-chip">Featured case study</span>}</span></Link>}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {w.tags.map((t) => (
                       <Tag key={t}>{t}</Tag>
