@@ -153,3 +153,49 @@
   font-weight: 500;
   letter-spacing: 0.02em;
 }
+
+.home-panel {
+  --home-radius: 3rem;
+  border-radius: var(--home-radius);
+}
+
+.home-portrait {
+  border-radius: 0 0 var(--home-radius) var(--home-radius);
+}
+
+@media (min-width: 48rem) {
+  .home-portrait {
+    border-radius: 0 var(--home-radius) var(--home-radius) 0;
+  }
+}
+
+.project-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--card) 75%, transparent);
+}
+
+.live-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--status-live);
+  animation: live-blink 1.8s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+}
