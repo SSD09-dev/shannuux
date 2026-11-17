@@ -1,23 +1,339 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState, type ComponentType, type SVGProps } from "react";
+import { Home, Heart, Smile, Globe, ArrowUpRight, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectDialog } from "@/components/project-dialog";
+import { SmileyFilled, GlobeFilled } from "@/components/dock-icons";
+import { useViewportFocusGlow } from "@/hooks/use-interactive-glow";
+import signature from "@/assets/signature.png.asset.json";
+import glassOfWater from "@/assets/glass-of-water.png.asset.json";
+import hloxpatThumbnail from "@/assets/hloxpat-thumbnail.jpg.asset.json";
+import { hloxpat } from "@/lib/hloxpat";
+import { kissan } from "@/lib/kissan";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import portraitHero from "@/assets/portrait-hero.jpg";
+import portraitAbout from "@/assets/portrait-about.jpg";
+import workKissan from "@/assets/work-kissan.jpg";
+import workMedikto from "@/assets/work-medikto.jpg";
+import workKanchira from "@/assets/work-kanchira.jpg";
+import workDfs from "@/assets/work-dfs.jpg";
+import book1 from "@/assets/book-1.jpg";
+import book2 from "@/assets/book-2.jpg";
+import book3 from "@/assets/book-3.jpg";
+import book4 from "@/assets/book-4.jpg";
+import book5 from "@/assets/book-5.jpg";
+import book6 from "@/assets/book-6.jpg";
+import sketch1 from "@/assets/sketch-1.jpg";
+import sketch2 from "@/assets/sketch-2.jpg";
+import sketch3 from "@/assets/sketch-3.jpg";
+import sketch4 from "@/assets/sketch-4.jpg";
+import sketch5 from "@/assets/sketch-5.jpg";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Shanmukha Sai — Product Designer" },
+      {
+        name: "description",
+        content: "Portfolio of Shanmukha Sai, a product designer with three years of experience in B2B, B2C and enterprise UX.",
+      },
+      { property: "og:title", content: "Shanmukha Sai — Product Designer" },
+      {
+        property: "og:description",
+        content: "Selected work: Kissan Agri Mall, HloXpat, Medikto, Kanchira and DFS Loan.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const works = [
+  {
+    title: "Kissan Agri Mall",
+    desc: "A connected digital ecosystem helping farmers shop for agricultural products while enabling teams to manage retail operations and field activities.",
+    img: workKissan,
+    tags: ["CRM", "B2C", "B2B", "E-commerce", "Dashboard", "Role-Based UX"],
+    nda: false,
+    live: kissan.live,
+    featured: kissan.featured,
+  },
+  {
+    title: hloxpat.title,
+    desc: hloxpat.description,
+    img: hloxpatThumbnail.url,
+    tags: hloxpat.tags,
+    nda: true,
+    live: true,
+  },
+  {
+    title: "Medikto",
+    desc: "A digital health document experience designed to help people organize and access their medical records in one place.",
+    img: workMedikto,
+    tags: ["B2C", "Health Tech", "Medication Reminder", "Digital Health Records"],
+    nda: true,
+  },
+  {
+    title: "Kanchira",
+    desc: "A fashion shopping experience designed to present collections clearly and make product discovery and browsing feel effortless.",
+    img: workKanchira,
+    tags: ["B2C", "E-commerce", "Fashion", "Product Discovery"],
+    nda: true,
+  },
+  {
+    title: "DFS Loan",
+    desc: "A digital loan experience focused on simplifying application steps and helping users navigate the borrowing journey with greater clarity.",
+    img: workDfs,
+    tags: ["Web & Mobile", "Loan Application", "Digital Lending", "FinTech"],
+    nda: true,
+  },
+];
+
+const books = [book1, book2, book3, book4, book5, book6];
+const sketches = [sketch1, sketch2, sketch3, sketch4, sketch5];
+
+type DockIcon = ComponentType<SVGProps<SVGSVGElement> & { strokeWidth?: number }>;
+const FilledHome: DockIcon = (props) => <Home {...props} fill="currentColor" />;
+const FilledHeart: DockIcon = (props) => <Heart {...props} fill="currentColor" />;
+
+const nav: { id: string; icon: DockIcon; activeIcon: DockIcon; label: string }[] = [
+  { id: "home", icon: Home, activeIcon: FilledHome, label: "Home" },
+  { id: "work", icon: Heart, activeIcon: FilledHeart, label: "Selected work" },
+  { id: "about", icon: Smile, activeIcon: SmileyFilled, label: "About" },
+  { id: "contact", icon: Globe, activeIcon: GlobeFilled, label: "Contact" },
+];
+
+function SideNav() {
+  const [active, setActive] = useState("home");
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    nav.forEach((n) => {
+      const el = document.getElementById(n.id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+    <nav
+      aria-label="Sections"
+      className="glass fixed z-50 flex gap-3 rounded-full p-2 max-md:bottom-4 max-md:left-1/2 max-md:-translate-x-1/2 md:left-6 md:top-1/2 md:-translate-y-1/2 md:flex-col"
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+      {nav.map(({ id, icon, activeIcon, label }) => {
+        const isActive = active === id;
+        const Icon = isActive ? activeIcon : icon;
+        return (
+        <a
+          key={id}
+          href={`#${id}`}
+          aria-label={label}
+          title={label}
+          aria-current={isActive ? "true" : undefined}
+          className={`dock-link grid size-11 place-items-center rounded-full border border-border ${
+            isActive ? "bg-surface text-foreground" : "bg-card/60 text-muted-foreground"
+          }`}
+        >
+          <Icon className="size-5" strokeWidth={1.75} />
+        </a>
+        );
+      })}
+    </nav>
+  );
+}
+
+function Tag({ children }: { children: string }) {
+  return (
+    <span className="glass-hover rounded-full border border-border bg-surface/70 px-3.5 py-1.5 text-sm text-foreground">
+      {children}
+    </span>
+  );
+}
+
+function Index() {
+  const [selectedProject, setSelectedProject] = useState<(typeof works)[number] | null>(null);
+  useViewportFocusGlow();
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <SideNav />
+      <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />
+      <main className="mx-auto max-w-6xl px-6 pb-32 md:pl-28">
+        {/* Intro */}
+        <section id="home" className="flex min-h-screen items-center py-16">
+          <div className="panel home-panel glow-spot grid w-full overflow-hidden md:grid-cols-[1.5fr_1fr]">
+            <div className="flex flex-col items-center justify-center px-8 py-16 text-center">
+              <p className="font-script text-3xl md:text-4xl">Hello, I'm</p>
+              <h1 className="font-display mt-2 text-5xl tracking-wide italic md:text-7xl">SHANMUKHA SAI</h1>
+              <p className="mt-4 text-lg text-muted-foreground">Product Designer with three years of experience.</p>
+            </div>
+            <img
+              src={portraitHero}
+              alt="Portrait of Shanmukha Sai"
+              className="home-portrait block h-full w-full self-stretch object-cover grayscale"
+            />
+          </div>
+        </section>
+
+        {/* Work */}
+        <section id="work" className="py-16">
+          <h2 className="heading-mono text-4xl md:text-6xl">Selected Work</h2>
+          <div className="mt-16 space-y-20">
+            {works.map((w) => (
+              <article key={w.title} className="grid items-center gap-10 md:grid-cols-[1fr_1.4fr]">
+                <div>
+                  <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="glow-link text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="glow-link inline-block rounded-md hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
+                  </h3>
+                  <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
+                </div>
+                <div data-focus-glow className="glass glass-hover glow-spot group rounded-[2rem] p-4">
+                  {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="relative block w-full overflow-hidden rounded-2xl">
+                    <img
+                      src={w.img}
+                      alt={`${w.title} project preview`}
+                      loading="lazy"
+                      className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                    {"live" in w && w.live && <span className="glass project-chip absolute left-3 top-3"><span aria-hidden="true" className="live-dot" />Live</span>}
+                  </Button> : <Link to="/work/kissan-agri-mall" aria-label="View Kissan Agri Mall case study" className="relative block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><img src={w.img} alt={`${w.title} project preview`} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-[1.03]" /><span className="absolute left-3 right-3 top-3 flex flex-wrap items-center gap-1.5">{w.live && <span className="glass project-chip"><span aria-hidden="true" className="live-dot" />Live</span>}{"featured" in w && w.featured && <span className="glass project-chip">Featured case study</span>}</span></Link>}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {w.tags.map((t) => (
+                      <Tag key={t}>{t}</Tag>
+                    ))}
+                  </div>
+                  <div className="grid transition-all duration-300 md:grid-rows-[0fr] md:opacity-0 md:group-hover:grid-rows-[1fr] md:group-hover:opacity-100 md:group-focus-within:grid-rows-[1fr] md:group-focus-within:opacity-100">
+                    <div className="overflow-hidden">
+                      {w.nda ? (
+                        <Button
+                          type="button"
+                          onClick={() => setSelectedProject(w)}
+                          className="glass glass-hover press mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          Explore project <ArrowUpRight className="size-4" />
+                        </Button>
+                      ) : (
+                        <Link
+                          to="/work/kissan-agri-mall"
+                          className="glass glass-hover press mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          View case study <ArrowUpRight className="size-4" />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="py-16">
+          <div className="grid gap-12 md:grid-cols-[1.5fr_1fr]">
+            <div>
+              <h2 className="heading-mono text-4xl md:text-6xl">About</h2>
+              <div className="mt-6 space-y-6 text-lg leading-relaxed text-muted-foreground">
+                <p>
+                  I enjoy observing the little things around me, exploring new ideas, and learning from everyday
+                  experiences. I love sketching and drawing, and often find inspiration in things that might seem
+                  ordinary to others.
+                </p>
+                <p>
+                  Over the past three years, I've grown as a Product Designer, but I'm still curious, still learning,
+                  and always finding new ways to look at the world.
+                </p>
+              </div>
+              <h3 className="mt-10 text-2xl font-semibold tracking-tight">Experience</h3>
+              <ul className="mt-4 space-y-3 text-lg">
+                <li>Hyde Studio (Product Designer) · 2026–Present</li>
+                <li>VBLP Tech Solutions (UI/UX Lead) · 2025–2026</li>
+                <li>Xiga Design Studio (UX Designer) · Freelance · 2024</li>
+              </ul>
+            </div>
+            <div className="glass glass-hover glow-spot self-center overflow-hidden rounded-[2rem] p-2">
+              <img src={portraitAbout} alt="Shanmukha Sai" loading="lazy" className="w-full rounded-[1.6rem] grayscale" />
+            </div>
+          </div>
+
+          <h2 className="heading-mono mt-28 text-4xl md:text-6xl">Things I Love</h2>
+          <h3 className="mt-6 text-2xl font-semibold tracking-tight">Books That Shaped Me</h3>
+          <div className="mt-6 grid grid-cols-3 gap-4 md:grid-cols-6">
+            {books.map((b, i) => (
+              <img
+                key={i}
+                src={b}
+                alt="Book cover"
+                loading="lazy"
+                className="aspect-[2/3] w-full rounded-md object-cover shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:rotate-[-2deg]"
+              />
+            ))}
+          </div>
+
+          <h3 className="mt-16 text-2xl font-semibold tracking-tight">The Way I See Things</h3>
+          <div className="mt-6 grid grid-cols-2 items-start gap-4 md:flex md:flex-wrap md:items-end">
+            {sketches.map((s, i) => {
+              const isLast = i === sketches.length - 1;
+              return (
+                <div
+                  key={i}
+                  className={
+                    "glass glass-hover glow-spot rounded-xl p-2" +
+                    (isLast ? " max-md:col-span-2 max-md:mx-auto max-md:w-[calc(50%-0.5rem)]" : "")
+                  }
+                >
+                  <img
+                    src={s}
+                    alt="Pencil sketch by Shanmukha"
+                    loading="lazy"
+                    className={
+                      "rounded-lg max-md:aspect-[3/4] max-md:w-full max-md:object-cover md:h-56 md:w-auto"
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="py-16">
+          <h2 className="heading-mono text-4xl md:text-6xl">Contact</h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {[
+              { label: "Email", value: "shannuux@gmail.com", href: "mailto:shannuux@gmail.com", icon: Mail },
+              { label: "LinkedIn", value: "Connect", href: "https://www.linkedin.com/in/shanmukhasai009/", icon: ArrowUpRight },
+              { label: "Behance", value: "View projects", href: "https://www.behance.net/shannusai", icon: ArrowUpRight },
+            ].map(({ label, value, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                className="glass glass-hover glow-spot flex items-center justify-between rounded-2xl p-6"
+              >
+                <span>
+                  <span className="heading-mono block text-lg">{label}</span>
+                  <span className="mt-1 block text-muted-foreground">{value}</span>
+                </span>
+                <Icon className="size-5" />
+              </a>
+            ))}
+          </div>
+          <div className="mt-24 flex flex-col items-center gap-8">
+            <p className="glass heading-mono flex items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm sm:gap-3 sm:px-8 sm:py-3 sm:text-lg">
+              Thanks for stopping by.
+              <img src={glassOfWater.url} alt="" className="h-6 w-auto shrink-0 sm:h-9" />
+            </p>
+            <img
+              src={signature.url}
+              alt="Signature of Shanmukha Sai"
+              className="h-12 w-[284px] object-contain opacity-90"
+            />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
