@@ -9,7 +9,7 @@ import {
 
 const seq = (values: number[]) => {
   let i = 0;
-  return () => values[i++ % values.length];
+  return () => values[i++ % values.length] ?? 0;
 };
 const samples = [0, 0.001, 0.25, 0.5, 0.75, 0.999];
 
