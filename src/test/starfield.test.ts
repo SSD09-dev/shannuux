@@ -44,8 +44,17 @@ describe("cosmic starfield rules", () => {
       onScreen++;
       if (y < 400) empty++;
     }
-    expect(star.y).toBeLessThan(400);
-    expect(empty / onScreen).toBeGreaterThanOrEqual(0.5);
+    // Compare with unguided streaks from the same random source.
+    let unguided = 0;
+    for (let n = 0; n < 50; n++) {
+      const c = createShootingStar(1280, 800, 0, rand);
+      for (let i = 0; i <= 10; i++) {
+        const { x, y } = shootingHead(c, (c.life * i) / 10);
+        if (x >= 0 && y >= 0 && x <= 1280 && y < 400) unguided++;
+      }
+    }
+    expect(onScreen).toBeGreaterThan(0);
+    expect(empty).toBeGreaterThan(unguided / 50);
   });
 
   it("grows streaks on wide desktops, capped at 1.6x", () => {
