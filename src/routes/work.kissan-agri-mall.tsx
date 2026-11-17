@@ -25,11 +25,11 @@ function KissanCaseStudy() {
     <main className="min-h-screen bg-background text-foreground">
       <header className="glass sticky top-0 z-40 border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 md:px-8">
-          <Button asChild className="size-11 shrink-0 border border-border bg-surface/70 hover:bg-surface">
+          <Button asChild className="press size-11 shrink-0 border border-border bg-surface/70 hover:bg-surface">
             <Link to="/" hash="work" aria-label="Back to selected work" title="Back to selected work"><ArrowLeft className="size-5" /></Link>
           </Button>
           <div className="min-w-0 flex-1"><h1 className="text-lg font-semibold md:text-2xl">Kissan Agri Mall</h1><p className="font-mono text-xs text-muted-foreground">Case study · Shanmukha Sai</p></div>
-          <Button onClick={() => setZoomed(!zoomed)} aria-label={zoomed ? "Fit case study to screen" : "Enlarge case study"} title={zoomed ? "Fit to screen" : "Enlarge case study"} aria-pressed={zoomed} className="size-11 shrink-0 border border-border bg-surface/70 hover:bg-surface">{zoomed ? <ZoomOut className="size-5" /> : <ZoomIn className="size-5" />}</Button>
+          <Button onClick={() => setZoomed(!zoomed)} aria-label={zoomed ? "Fit case study to screen" : "Enlarge case study"} title={zoomed ? "Fit to screen" : "Enlarge case study"} aria-pressed={zoomed} className="press size-11 shrink-0 border border-border bg-surface/70 hover:bg-surface">{zoomed ? <ZoomOut className="size-5" /> : <ZoomIn className="size-5" />}</Button>
         </div>
       </header>
       <div className="overflow-x-auto" tabIndex={0} aria-label="Case study pages">
@@ -38,7 +38,7 @@ function KissanCaseStudy() {
             <Fragment key={page.title}>
             {index === kissanPages.length - 1 && <section aria-labelledby="product-status-title" className="mx-auto w-full max-w-[932px] px-4 pt-8 md:pt-12">
               <div className="mb-6 flex justify-center">
-                <Button asChild className="glass glass-hover rounded-full px-4 py-2 text-foreground"><a href={kissan.website.url} target="_blank" rel="noopener noreferrer"><Globe className="size-5" />{kissan.website.label}</a></Button>
+                <Button asChild className="glass glass-hover press rounded-full px-4 py-2 text-foreground"><a href={kissan.website.url} target="_blank" rel="noopener noreferrer"><Globe className="size-5" />{kissan.website.label}</a></Button>
               </div>
               <div className="rounded-lg bg-surface/70 p-4 md:p-6">
                 <h2 id="product-status-title" className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Info aria-hidden="true" className="size-5 shrink-0" />Product Status</h2>
@@ -70,7 +70,7 @@ function KissanCaseStudy() {
         </div>
       </div>
       <footer className="mx-auto flex max-w-6xl justify-center px-6 py-12">
-        <Button asChild className="glass glass-hover px-6 py-3"><Link to="/" hash="work"><ArrowLeft className="size-4" />Back to selected work</Link></Button>
+        <Button asChild className="glass glass-hover press px-6 py-3"><Link to="/" hash="work"><ArrowLeft className="size-4" />Back to selected work</Link></Button>
       </footer>
     </main>
   );

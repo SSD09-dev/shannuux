@@ -51,7 +51,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
           {project && <>
             <div className="flex items-start justify-between gap-4">
               <Dialog.Title className="text-2xl font-semibold md:text-4xl">{project.title}</Dialog.Title>
-              <Dialog.Close asChild><Button aria-label="Close project" title="Close project" className="size-10 shrink-0 border border-border bg-surface/70 hover:bg-surface"><X className="size-5" /></Button></Dialog.Close>
+              <Dialog.Close asChild><Button aria-label="Close project" title="Close project" className="press size-10 shrink-0 border border-border bg-surface/70 hover:bg-surface"><X className="size-5" /></Button></Dialog.Close>
             </div>
             <Dialog.Description className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{details[project.title]?.description ?? project.desc}</Dialog.Description>
             <div className="mt-5 flex flex-wrap gap-2">{project.tags.map(tag => <span key={tag} className="rounded-full border border-border bg-surface/70 px-3 py-1.5 text-sm">{tag}</span>)}</div>
@@ -62,7 +62,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
                 ))}
               </div>
             ) : <img src={project.img} alt={`${project.title} detailed design screens`} className="mt-6 block h-auto w-full object-contain" />}
-            {project.title === hloxpat.title && <div className="mt-6 flex flex-wrap gap-3">{hloxpat.links.map(link => <Button key={link.kind} asChild className="glass glass-hover rounded-full px-4 py-2 text-foreground"><a href={link.url} target="_blank" rel="noopener noreferrer">{link.kind === "app" ? <Download className="size-5" /> : <Globe className="size-5" />}{link.label}</a></Button>)}</div>}
+            {project.title === hloxpat.title && <div className="mt-6 flex flex-wrap gap-3">{hloxpat.links.map(link => <Button key={link.kind} asChild className="glass glass-hover press rounded-full px-4 py-2 text-foreground"><a href={link.url} target="_blank" rel="noopener noreferrer">{link.kind === "app" ? <Download className="size-5" /> : <Globe className="size-5" />}{link.label}</a></Button>)}</div>}
             <div className="mt-6 rounded-lg bg-surface/70 p-4"><h3 className="flex items-center gap-2 font-semibold"><Lock className="size-4" />A note on this project</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.title === hloxpat.title ? hloxpat.note : "This project is covered by a non-disclosure agreement. I've shared only the design work I'm permitted to showcase, while respecting confidential information."}</p></div>
           </>}
         </Dialog.Content>
