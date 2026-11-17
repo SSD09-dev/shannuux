@@ -15,3 +15,4 @@
 - [x] Fix the active About (smiley) and Contact (globe) dock icons with cut-out details.
 # Cosmic background
 - [x] Add a twinkling starfield with occasional shooting stars behind every page; cursor parallax on desktop, lighter on phones, still for reduced motion.
+- [ ] Make shooting stars brighter, longer, more frequent, routed through empty sky and visible through glass content; easy to spot on phones.
