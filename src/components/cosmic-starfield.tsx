@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import {
   PARALLAX_MAX_PX,
+  SHOOTING_BEHIND_CONTENT,
   SHOOTING_OPACITY,
-  createShootingStar,
   createStar,
   nextShootingDelay,
+  pickShootingStar,
+  shootingHead,
   starCount,
   starOpacity,
   type ShootingStar,
@@ -14,18 +16,30 @@ import {
 const POINTER_FINE = "(hover: hover) and (pointer: fine)";
 const POINTER_COARSE = "(pointer: coarse)";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+/** Anything that counts as foreground content rather than empty sky. */
+const CONTENT_SELECTOR = ".glass, .panel, img, h1, h2, h3, p, li, a, button, nav, header, [role='dialog']";
+
+/** True when the point shows bare page background (the canvases ignore hit tests). */
+function isEmptyAt(x: number, y: number): boolean {
+  const el = document.elementFromPoint(x, y);
+  return !el || !el.closest(CONTENT_SELECTOR);
+}
 
 /**
- * Fixed, decorative canvas behind the whole site: twinkling spectral stars,
- * an occasional shooting star, and a gentle cursor parallax on desktop.
+ * Site-wide decorative sky. Stars twinkle on a canvas behind everything; shooting
+ * stars use a second canvas layered just above the page (below the dock, header and
+ * dialogs) so they stay visible through the glass content, dimmed while crossing it.
  */
 export function CosmicStarfield() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starsRef = useRef<HTMLCanvasElement>(null);
+  const meteorRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = starsRef.current;
+    const meteorCanvas = meteorRef.current;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    const mctx = meteorCanvas?.getContext("2d");
+    if (!canvas || !meteorCanvas || !ctx || !mctx) return;
 
     const fine = window.matchMedia(POINTER_FINE);
     const coarse = window.matchMedia(POINTER_COARSE);
@@ -33,9 +47,11 @@ export function CosmicStarfield() {
 
     let width = 0;
     let height = 0;
-    let stars: Star[] = [];
+    const stars: Star[] = [];
     let shooting: ShootingStar | null = null;
-    let nextShootAt = performance.now() + nextShootingDelay();
+    let meteorDirty = false;
+    let veil = 1;
+    let nextShootAt = performance.now() + 1500;
     let frame = 0;
     let lastDraw = 0;
     const offset = { x: 0, y: 0 };
@@ -45,9 +61,11 @@ export function CosmicStarfield() {
       const dpr = Math.min(window.devicePixelRatio || 1, coarse.matches ? 1.5 : 2);
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      for (const [c, context] of [[canvas, ctx], [meteorCanvas, mctx]] as const) {
+        c.width = Math.round(width * dpr);
+        c.height = Math.round(height * dpr);
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
       const count = starCount(width, height, coarse.matches);
       // Keep existing stars on mobile address-bar resizes; only top up or trim.
       while (stars.length < count) stars.push(createStar());
@@ -77,6 +95,10 @@ export function CosmicStarfield() {
     };
 
     const drawShooting = (now: number) => {
+      if (meteorDirty) {
+        mctx.clearRect(0, 0, width, height);
+        meteorDirty = false;
+      }
       if (!shooting) return;
       const age = now - shooting.born;
       const progress = age / shooting.life;
@@ -84,37 +106,44 @@ export function CosmicStarfield() {
         shooting = null;
         return;
       }
-      const travelled = (shooting.speed * age) / 1000;
-      const hx = shooting.x + shooting.dx * travelled;
-      const hy = shooting.y + shooting.dy * travelled;
-      const tail = shooting.tail * Math.min(1, progress * 3);
+      const { x: hx, y: hy } = shootingHead(shooting, age);
+      const tail = shooting.tail * Math.min(1, progress * 2.5);
       const tx = hx - shooting.dx * tail;
       const ty = hy - shooting.dy * tail;
-      const alpha = SHOOTING_OPACITY * Math.sin(Math.PI * progress);
+      // Dim smoothly while the head is over cards or text so it reads as passing behind glass.
+      veil += ((isEmptyAt(hx, hy) ? 1 : SHOOTING_BEHIND_CONTENT) - veil) * 0.2;
+      const alpha = SHOOTING_OPACITY * veil * Math.sin(Math.PI * Math.min(1, progress * 1.15));
 
-      const gradient = ctx.createLinearGradient(hx, hy, tx, ty);
-      gradient.addColorStop(0, `rgba(255,255,255,${alpha})`);
-      gradient.addColorStop(1, "rgba(191,216,255,0)");
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 1.1;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      ctx.moveTo(hx, hy);
-      ctx.lineTo(tx, ty);
-      ctx.stroke();
+      mctx.lineCap = "round";
+      // Soft outer glow, then a crisp core line.
+      for (const [w, a] of [[4, 0.18], [1.6, 1]] as const) {
+        const gradient = mctx.createLinearGradient(hx, hy, tx, ty);
+        gradient.addColorStop(0, `rgba(255,255,255,${alpha * a})`);
+        gradient.addColorStop(0.35, `rgba(220,232,255,${alpha * a * 0.5})`);
+        gradient.addColorStop(1, "rgba(191,216,255,0)");
+        mctx.strokeStyle = gradient;
+        mctx.lineWidth = w;
+        mctx.beginPath();
+        mctx.moveTo(hx, hy);
+        mctx.lineTo(tx, ty);
+        mctx.stroke();
+      }
 
-      const glow = ctx.createRadialGradient(hx, hy, 0, hx, hy, 4);
-      glow.addColorStop(0, `rgba(255,255,255,${alpha * 1.6})`);
-      glow.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(hx, hy, 4, 0, Math.PI * 2);
-      ctx.fill();
+      const glow = mctx.createRadialGradient(hx, hy, 0, hx, hy, 7);
+      glow.addColorStop(0, `rgba(255,255,255,${Math.min(1, alpha * 1.3)})`);
+      glow.addColorStop(0.35, `rgba(220,232,255,${alpha * 0.45})`);
+      glow.addColorStop(1, "rgba(191,216,255,0)");
+      mctx.fillStyle = glow;
+      mctx.beginPath();
+      mctx.arc(hx, hy, 7, 0, Math.PI * 2);
+      mctx.fill();
+      meteorDirty = true;
     };
 
     const drawStatic = () => {
       offset.x = offset.y = 0;
       ctx.clearRect(0, 0, width, height);
+      mctx.clearRect(0, 0, width, height);
       drawStars(0, true);
     };
 
@@ -126,8 +155,9 @@ export function CosmicStarfield() {
       lastDraw = now;
 
       if (!shooting && now >= nextShootAt) {
-        shooting = createShootingStar(width, height, now);
-        nextShootAt = now + nextShootingDelay();
+        shooting = pickShootingStar(width, height, now, isEmptyAt);
+        veil = 1;
+        nextShootAt = now + shooting.life + nextShootingDelay();
       }
       offset.x += (target.x - offset.x) * 0.06;
       offset.y += (target.y - offset.y) * 0.06;
@@ -140,12 +170,12 @@ export function CosmicStarfield() {
     const start = () => {
       cancelAnimationFrame(frame);
       frame = 0;
+      shooting = null;
       if (reduced.matches) {
-        shooting = null;
         drawStatic();
         return;
       }
-      nextShootAt = performance.now() + nextShootingDelay();
+      nextShootAt = performance.now() + 1500;
       frame = requestAnimationFrame(tick);
     };
 
@@ -188,5 +218,10 @@ export function CosmicStarfield() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 h-full w-full" />;
+  return (
+    <>
+      <canvas ref={starsRef} aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 h-full w-full" />
+      <canvas ref={meteorRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-30 h-full w-full" />
+    </>
+  );
 }

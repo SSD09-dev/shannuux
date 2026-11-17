@@ -3,6 +3,9 @@ import {
   createShootingStar,
   createStar,
   nextShootingDelay,
+  pickShootingStar,
+  shootingHead,
+  SHOOTING_OPACITY,
   starCount,
   starOpacity,
 } from "@/lib/starfield";
@@ -14,21 +17,38 @@ const seq = (values: number[]) => {
 const samples = [0, 0.001, 0.25, 0.5, 0.75, 0.999];
 
 describe("cosmic starfield rules", () => {
-  it("spawns shooting stars every 6 to 12 seconds", () => {
-    expect(nextShootingDelay(() => 0)).toBe(6000);
-    expect(nextShootingDelay(() => 0.999999)).toBeCloseTo(12000, -1);
+  it("spawns shooting stars every 3 to 6 seconds", () => {
+    expect(nextShootingDelay(() => 0)).toBe(3000);
+    expect(nextShootingDelay(() => 0.999999)).toBeCloseTo(6000, -1);
   });
 
-  it("keeps shooting star tails between 60px and 120px", () => {
+  it("keeps shooting star tails between 120px and 220px", () => {
     for (const v of samples) {
       const s = createShootingStar(1280, 800, 0, () => v);
-      expect(s.tail).toBeGreaterThanOrEqual(60);
-      expect(s.tail).toBeLessThanOrEqual(120);
+      expect(s.tail).toBeGreaterThanOrEqual(120);
+      expect(s.tail).toBeLessThanOrEqual(220);
     }
   });
 
-  it("starts shooting stars in the upper part of the screen", () => {
-    for (const v of samples) expect(createShootingStar(1280, 800, 0, () => v).y).toBeLessThanOrEqual(800 * 0.3);
+  it("prefers a path across empty background", () => {
+    // Content fills the lower half; the chosen streak should stay in the empty top.
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const star = pickShootingStar(1280, 800, 0, (_x, y) => y < 400, rand);
+    let empty = 0;
+    let onScreen = 0;
+    for (let i = 0; i <= 10; i++) {
+      const { x, y } = shootingHead(star, (star.life * i) / 10);
+      if (x < 0 || y < 0 || x > 1280 || y > 800) continue;
+      onScreen++;
+      if (y < 400) empty++;
+    }
+    expect(star.y).toBeLessThan(400);
+    expect(empty / onScreen).toBeGreaterThanOrEqual(0.5);
+  });
+
+  it("shoots at a brighter 0.75 peak opacity", () => {
+    expect(SHOOTING_OPACITY).toBe(0.75);
   });
 
   it("keeps star sizes between 0.6px and 2px", () => {

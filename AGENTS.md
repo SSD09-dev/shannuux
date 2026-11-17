@@ -39,5 +39,5 @@ use the editor.
 - Render replacement composite project frames intact at their natural aspect ratio through CDN pointers, so overlapping artwork is never split or cropped.
 - Interactive glow lives in styles.css utilities (glow-spot, glass-hover, press, glow-link, dock-link) gated by hover/pointer media queries, fed by one delegated rAF pointer listener and a touch-only IntersectionObserver in src/hooks/use-interactive-glow.ts; lift/press use the individual `translate`/`scale` properties so they compose without overriding each other. Never put glow-spot on fixed-position elements (it sets position: relative).
 - Active dock icons must use knockout fill SVGs (src/components/dock-icons.tsx), never `fill` on outline icons, so inner details stay visible.
-- The site-wide starfield is one canvas (src/components/cosmic-starfield.tsx) mounted in __root with tunable rules in src/lib/starfield.ts; page wrappers must stay transparent (body supplies the background) or they hide the -z-10 canvas.
+- The site-wide starfield is one canvas (src/components/cosmic-starfield.tsx) mounted in __root with tunable rules in src/lib/starfield.ts; page wrappers must stay transparent (body supplies the background) or they hide the -z-10 star canvas; shooting stars use a second z-30 canvas (below dock/header/dialogs) so they show through glass content.
 <!-- AGENT-MEMORY:END -->
