@@ -1,6 +1,30 @@
 [
- {"capability":"code","source":"code archive (Lovable TanStack portfolio)","outcome":"migrate","status":"in_progress","next_action":"copy routes, components, lib, styles"},
- {"capability":"images","source":"CDN pointers owned by original project","outcome":"migrate","status":"in_progress","next_action":"re-upload each image to this project's CDN"},
- {"capability":"database/auth/storage/payments/email","source":"none detected","outcome":"none","status":"verified","next_action":""},
- {"capability":"verification","source":"","outcome":"migrate","status":"pending","next_action":"tests + browser check"}
+ {
+  "capability": "code",
+  "source": "code archive (Lovable TanStack portfolio)",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "images",
+  "source": "CDN pointers owned by original project",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "database/auth/storage/payments/email",
+  "source": "none detected",
+  "outcome": "none",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "verification",
+  "source": "",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ }
 ]
