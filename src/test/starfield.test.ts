@@ -35,8 +35,16 @@ describe("cosmic starfield rules", () => {
     let seed = 7;
     const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
     const star = pickShootingStar(1280, 800, 0, (_x, y) => y < 400, rand);
-    const mid = shootingHead(star, star.life / 2);
-    expect(mid.y).toBeLessThan(400);
+    let empty = 0;
+    let onScreen = 0;
+    for (let i = 0; i <= 10; i++) {
+      const { x, y } = shootingHead(star, (star.life * i) / 10);
+      if (x < 0 || y < 0 || x > 1280 || y > 800) continue;
+      onScreen++;
+      if (y < 400) empty++;
+    }
+    expect(star.y).toBeLessThan(400);
+    expect(empty / onScreen).toBeGreaterThanOrEqual(0.5);
   });
 
   it("shoots at a brighter 0.75 peak opacity", () => {
