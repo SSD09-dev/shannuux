@@ -116,7 +116,8 @@ export function CosmicStarfield() {
 
       mctx.lineCap = "round";
       // Soft outer glow, then a crisp core line.
-      for (const [w, a] of [[4, 0.18], [1.6, 1]] as const) {
+      const k = shooting.scale;
+      for (const [w, a] of [[4 * k, 0.18], [1.6 * k, 1]] as const) {
         const gradient = mctx.createLinearGradient(hx, hy, tx, ty);
         gradient.addColorStop(0, `rgba(255,255,255,${alpha * a})`);
         gradient.addColorStop(0.35, `rgba(220,232,255,${alpha * a * 0.5})`);
@@ -129,13 +130,14 @@ export function CosmicStarfield() {
         mctx.stroke();
       }
 
-      const glow = mctx.createRadialGradient(hx, hy, 0, hx, hy, 7);
+      const headR = 7 * k;
+      const glow = mctx.createRadialGradient(hx, hy, 0, hx, hy, headR);
       glow.addColorStop(0, `rgba(255,255,255,${Math.min(1, alpha * 1.3)})`);
       glow.addColorStop(0.35, `rgba(220,232,255,${alpha * 0.45})`);
       glow.addColorStop(1, "rgba(191,216,255,0)");
       mctx.fillStyle = glow;
       mctx.beginPath();
-      mctx.arc(hx, hy, 7, 0, Math.PI * 2);
+      mctx.arc(hx, hy, headR, 0, Math.PI * 2);
       mctx.fill();
       meteorDirty = true;
     };
