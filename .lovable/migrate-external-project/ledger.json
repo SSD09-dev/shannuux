@@ -1,0 +1,30 @@
+[
+ {
+  "capability": "code",
+  "source": "code archive (Lovable TanStack portfolio)",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "images",
+  "source": "CDN pointers owned by original project",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "database/auth/storage/payments/email",
+  "source": "none detected",
+  "outcome": "none",
+  "status": "verified",
+  "next_action": ""
+ },
+ {
+  "capability": "verification",
+  "source": "",
+  "outcome": "migrate",
+  "status": "verified",
+  "next_action": ""
+ }
+]

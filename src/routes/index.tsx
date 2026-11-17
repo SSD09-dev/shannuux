@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentType, type SVGProps } from "react";
 import { Home, Heart, Smile, Globe, ArrowUpRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/components/project-dialog";
+import { SmileyFilled, GlobeFilled } from "@/components/dock-icons";
+import { useViewportFocusGlow } from "@/hooks/use-interactive-glow";
 import signature from "@/assets/signature.png.asset.json";
 import glassOfWater from "@/assets/glass-of-water.png.asset.json";
 import hloxpatThumbnail from "@/assets/hloxpat-thumbnail.jpg.asset.json";
@@ -91,11 +93,15 @@ const works = [
 const books = [book1, book2, book3, book4, book5, book6];
 const sketches = [sketch1, sketch2, sketch3, sketch4, sketch5];
 
-const nav = [
-  { id: "home", icon: Home, label: "Home" },
-  { id: "work", icon: Heart, label: "Selected work" },
-  { id: "about", icon: Smile, label: "About" },
-  { id: "contact", icon: Globe, label: "Contact" },
+type DockIcon = ComponentType<SVGProps<SVGSVGElement> & { strokeWidth?: number }>;
+const FilledHome: DockIcon = (props) => <Home {...props} fill="currentColor" />;
+const FilledHeart: DockIcon = (props) => <Heart {...props} fill="currentColor" />;
+
+const nav: { id: string; icon: DockIcon; activeIcon: DockIcon; label: string }[] = [
+  { id: "home", icon: Home, activeIcon: FilledHome, label: "Home" },
+  { id: "work", icon: Heart, activeIcon: FilledHeart, label: "Selected work" },
+  { id: "about", icon: Smile, activeIcon: SmileyFilled, label: "About" },
+  { id: "contact", icon: Globe, activeIcon: GlobeFilled, label: "Contact" },
 ];
 
 function SideNav() {
@@ -116,19 +122,24 @@ function SideNav() {
       aria-label="Sections"
       className="glass fixed z-50 flex gap-3 rounded-full p-2 max-md:bottom-4 max-md:left-1/2 max-md:-translate-x-1/2 md:left-6 md:top-1/2 md:-translate-y-1/2 md:flex-col"
     >
-      {nav.map(({ id, icon: Icon, label }) => (
+      {nav.map(({ id, icon, activeIcon, label }) => {
+        const isActive = active === id;
+        const Icon = isActive ? activeIcon : icon;
+        return (
         <a
           key={id}
           href={`#${id}`}
           aria-label={label}
           title={label}
-          className={`grid size-11 place-items-center rounded-full border border-border transition-all duration-300 hover:scale-105 hover:bg-surface ${
-            active === id ? "bg-surface text-foreground" : "bg-card/60 text-muted-foreground"
+          aria-current={isActive ? "true" : undefined}
+          className={`dock-link grid size-11 place-items-center rounded-full border border-border ${
+            isActive ? "bg-surface text-foreground" : "bg-card/60 text-muted-foreground"
           }`}
         >
-          <Icon className="size-5" fill={active === id ? "currentColor" : "none"} strokeWidth={1.75} />
+          <Icon className="size-5" strokeWidth={1.75} />
         </a>
-      ))}
+        );
+      })}
     </nav>
   );
 }
@@ -143,14 +154,15 @@ function Tag({ children }: { children: string }) {
 
 function Index() {
   const [selectedProject, setSelectedProject] = useState<(typeof works)[number] | null>(null);
+  useViewportFocusGlow();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <SideNav />
       <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />
       <main className="mx-auto max-w-6xl px-6 pb-32 md:pl-28">
         {/* Intro */}
         <section id="home" className="flex min-h-screen items-center py-16">
-          <div className="panel home-panel grid w-full overflow-hidden md:grid-cols-[1.5fr_1fr]">
+          <div className="panel home-panel glow-spot grid w-full overflow-hidden md:grid-cols-[1.5fr_1fr]">
             <div className="flex flex-col items-center justify-center px-8 py-16 text-center">
               <p className="font-script text-3xl md:text-4xl">Hello, I'm</p>
               <h1 className="font-display mt-2 text-5xl tracking-wide italic md:text-7xl">SHANMUKHA SAI</h1>
@@ -172,11 +184,11 @@ function Index() {
               <article key={w.title} className="grid items-center gap-10 md:grid-cols-[1fr_1.4fr]">
                 <div>
                   <h3 className="text-3xl font-semibold tracking-tight md:text-4xl">
-                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="rounded-md transition-colors hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
+                    {w.nda ? <Button onClick={() => setSelectedProject(w)} className="glow-link text-left text-3xl font-semibold hover:text-muted-foreground md:text-4xl">{w.title}</Button> : <Link to="/work/kissan-agri-mall" className="glow-link inline-block rounded-md hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{w.title}</Link>}
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{w.desc}</p>
                 </div>
-                <div className="glass glass-hover group rounded-[2rem] p-4">
+                <div data-focus-glow className="glass glass-hover glow-spot group rounded-[2rem] p-4">
                   {w.nda ? <Button onClick={() => setSelectedProject(w)} aria-label={`View ${w.title} project`} className="relative block w-full overflow-hidden rounded-2xl">
                     <img
                       src={w.img}
@@ -197,14 +209,14 @@ function Index() {
                         <Button
                           type="button"
                           onClick={() => setSelectedProject(w)}
-                          className="glass glass-hover mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="glass glass-hover press mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           Explore project <ArrowUpRight className="size-4" />
                         </Button>
                       ) : (
                         <Link
                           to="/work/kissan-agri-mall"
-                          className="glass glass-hover mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="glass glass-hover press mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           View case study <ArrowUpRight className="size-4" />
                         </Link>
@@ -240,7 +252,7 @@ function Index() {
                 <li>Xiga Design Studio (UX Designer) · Freelance · 2024</li>
               </ul>
             </div>
-            <div className="glass glass-hover self-center overflow-hidden rounded-[2rem] p-2">
+            <div className="glass glass-hover glow-spot self-center overflow-hidden rounded-[2rem] p-2">
               <img src={portraitAbout} alt="Shanmukha Sai" loading="lazy" className="w-full rounded-[1.6rem] grayscale" />
             </div>
           </div>
@@ -267,7 +279,7 @@ function Index() {
                 <div
                   key={i}
                   className={
-                    "glass glass-hover rounded-xl p-2" +
+                    "glass glass-hover glow-spot rounded-xl p-2" +
                     (isLast ? " max-md:col-span-2 max-md:mx-auto max-md:w-[calc(50%-0.5rem)]" : "")
                   }
                 >
@@ -299,7 +311,7 @@ function Index() {
                 href={href}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="glass glass-hover flex items-center justify-between rounded-2xl p-6"
+                className="glass glass-hover glow-spot flex items-center justify-between rounded-2xl p-6"
               >
                 <span>
                   <span className="heading-mono block text-lg">{label}</span>

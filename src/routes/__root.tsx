@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { usePointerSpotlight } from "../hooks/use-interactive-glow";
+import { CosmicStarfield } from "../components/cosmic-starfield";
 
 function NotFoundComponent() {
   return (
@@ -118,9 +120,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  usePointerSpotlight();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <CosmicStarfield />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

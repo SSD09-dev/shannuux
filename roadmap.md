@@ -8,3 +8,12 @@
 - [x] Add the Key Decisions slide under User Segments, before the role-based information architecture slides.
 - [x] Replace Medikto, Kanchira and DFS pop-up images from the supplied PDFs; verify uncropped layouts on desktop, tablet and mobile.
 - [x] Add hloXpat below Kissan with original PDF imagery, matching pop-up, Live badge and direct app/website links; verify across screen sizes.
+# Interactive glow & dock icons
+- [x] Import the portfolio from the uploaded code archive and move its images to this project's hosting.
+- [x] Add device-adaptive spotlight, lift, border glow and press feedback to cards, glass panels, links and buttons.
+- [x] Add the centred-card glow on phones and tablets; respect reduced motion.
+- [x] Fix the active About (smiley) and Contact (globe) dock icons with cut-out details.
+# Cosmic background
+- [x] Add a twinkling starfield with occasional shooting stars behind every page; cursor parallax on desktop, lighter on phones, still for reduced motion.
+- [x] Make shooting stars brighter, longer, more frequent, routed through empty sky and visible through glass content; easy to spot on phones.
+- [x] Adapt shooting stars to every screen size: same look on phone and tablet, bigger streaks on wide desktops, routed through empty space.
