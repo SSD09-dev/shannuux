@@ -1,24 +1,52 @@
-# Pixel Perfect Replica
+# Shanmukha Sai — UX/UI & Product Design Portfolio
 
-Implement exactly the screenshot and nothing else
+> A minimal, dark-mode glassmorphism portfolio showcasing end-to-end UX/UI case studies, interactive systems, and front-end craft.
 
-This project was built with [Lovable](https://lovable.dev).
+🌐 **Live Portfolio:** [shannuux.lovable.app](https://lovable.app)
 
-## Build with Lovable
+---
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/41b01648-d020-4d8a-8d5d-8c26f3635098).
+## ✨ Key Highlights & Design Engineering
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **Cosmic Starfield & Shooting Star Canvas:** Lightweight, GPU-accelerated HTML5 `<canvas>` background featuring real astronomical star tints and periodic diagonal shooting stars behind dark frosted-glass surfaces.
+- **Device-Adaptive Micro-Interactions:**
+  - **Desktop (`pointer: fine`):** Cursor-tracking radial spotlight glow, subtle `3px` micro-elevation, and illuminated glass borders.
+  - **Touch Devices (`pointer: coarse`):** Tactile `:active` press feedback and viewport-centered scroll focus without sticky hover states.
+  - **Accessibility:** Full support for `prefers-reduced-motion` across all animations.
+- **Case Study Architecture:** Structured product walkthroughs covering user research, information architecture, wireframes, design tokens, and interactive prototypes (including **Kissan Agri Mall** and featured product systems).
 
-## Development
+---
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## 🛠️ Tech Stack
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+- **Framework:** React + TypeScript + TanStack Router
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS + Custom Glassmorphism & GPU CSS Variables
+- **Animation & Canvas:** HTML5 `<canvas>` + Hardware-Accelerated CSS Transitions
+- **Deployment & Sync:** GitHub + Lovable Cloud CI/CD
+
+---
+
+## 🚀 Run Locally
+
+```bash
+# 1. Clone the repository
+git clone https://github.com
+
+# 2. Navigate into the project directory
+cd shannuux
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the local development server
 npm run dev
 ```
+
+---
+
+## 📬 Connect
+
+- **Portfolio:** [shannuux.lovable.app](https://lovable.app)
+- **LinkedIn:** [linkedin.com/in/shanmukhasai009](https://www.linkedin.com/in/shanmukhasai009/)
+- **GitHub:** [@SSD09-dev](https://github.com)
