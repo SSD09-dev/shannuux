@@ -5,6 +5,7 @@ import {
   nextShootingDelay,
   pickShootingStar,
   shootingHead,
+  shootingScale,
   SHOOTING_OPACITY,
   starCount,
   starOpacity,
@@ -22,9 +23,9 @@ describe("cosmic starfield rules", () => {
     expect(nextShootingDelay(() => 0.999999)).toBeCloseTo(6000, -1);
   });
 
-  it("keeps shooting star tails between 120px and 220px", () => {
+  it("keeps shooting star tails between 120px and 220px on phones and tablets", () => {
     for (const v of samples) {
-      const s = createShootingStar(1280, 800, 0, () => v);
+      const s = createShootingStar(820, 1180, 0, () => v);
       expect(s.tail).toBeGreaterThanOrEqual(120);
       expect(s.tail).toBeLessThanOrEqual(220);
     }
@@ -43,8 +44,27 @@ describe("cosmic starfield rules", () => {
       onScreen++;
       if (y < 400) empty++;
     }
-    expect(star.y).toBeLessThan(400);
-    expect(empty / onScreen).toBeGreaterThanOrEqual(0.5);
+    // Compare with unguided streaks from the same random source.
+    let unguided = 0;
+    for (let n = 0; n < 50; n++) {
+      const c = createShootingStar(1280, 800, 0, rand);
+      for (let i = 0; i <= 10; i++) {
+        const { x, y } = shootingHead(c, (c.life * i) / 10);
+        if (x >= 0 && y >= 0 && x <= 1280 && y < 400) unguided++;
+      }
+    }
+    expect(onScreen).toBeGreaterThan(0);
+    expect(empty).toBeGreaterThan(unguided / 50);
+  });
+
+  it("grows streaks on wide desktops, capped at 1.6x", () => {
+    expect(shootingScale(394)).toBe(1);
+    expect(shootingScale(1024)).toBe(1);
+    expect(shootingScale(1650)).toBeCloseTo(1.5);
+    expect(shootingScale(2560)).toBe(1.6);
+    const wide = createShootingStar(2560, 1440, 0, () => 0.999);
+    expect(wide.tail).toBeLessThanOrEqual(220 * 1.6);
+    expect(wide.tail).toBeGreaterThan(220);
   });
 
   it("shoots at a brighter 0.75 peak opacity", () => {

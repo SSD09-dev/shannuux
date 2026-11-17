@@ -9,6 +9,14 @@ export const SHOOTING_OPACITY = 0.75;
 /** Brightness kept while a streak passes behind glass content (fraction of full). */
 export const SHOOTING_BEHIND_CONTENT = 0.55;
 export const PARALLAX_MAX_PX = 10;
+/** Streaks keep their base size up to this width, then grow with the screen. */
+export const SHOOTING_BASE_WIDTH = 1100;
+export const SHOOTING_MAX_SCALE = 1.6;
+
+/** Phones and tablets use the base streak size; wide desktops get bigger streaks. */
+export function shootingScale(width: number): number {
+  return Math.min(SHOOTING_MAX_SCALE, Math.max(1, width / SHOOTING_BASE_WIDTH));
+}
 
 export type Star = {
   /** Normalised position (0–1) so resizes rescale instead of regenerating. */
@@ -36,6 +44,8 @@ export type ShootingStar = {
   tail: number;
   born: number;
   life: number;
+  /** Size multiplier for tail, line width and head glow on larger screens. */
+  scale: number;
 };
 
 type Rand = () => number;
@@ -86,16 +96,18 @@ export function createShootingStar(width: number, height: number, now: number, r
   const angle = ((18 + rand() * 32) * Math.PI) / 180; // 18–50° below horizontal
   const dx = Math.cos(angle) * (leftToRight ? 1 : -1);
   const dy = Math.sin(angle);
-  const base = Math.max(Math.min(width, 1400), 420);
+  const base = Math.max(Math.min(width, 1600), 420);
+  const scale = shootingScale(width);
   return {
     x: leftToRight ? width * rand() * 0.6 : width * (0.4 + rand() * 0.6),
     y: height * rand() * 0.75,
     dx,
     dy,
     speed: base * (0.55 + rand() * 0.3),
-    tail: SHOOTING_TAIL_PX.min + (SHOOTING_TAIL_PX.max - SHOOTING_TAIL_PX.min) * rand(),
+    tail: (SHOOTING_TAIL_PX.min + (SHOOTING_TAIL_PX.max - SHOOTING_TAIL_PX.min) * rand()) * scale,
     born: now,
     life: 1300 + rand() * 600,
+    scale,
   };
 }
 
@@ -115,7 +127,7 @@ export function pickShootingStar(
   now: number,
   isEmpty: (x: number, y: number) => boolean,
   rand: Rand = Math.random,
-  tries = 14,
+  tries = 24,
 ): ShootingStar {
   let best = createShootingStar(width, height, now, rand);
   let bestScore = -1;
@@ -126,7 +138,7 @@ export function pickShootingStar(
     for (let i = 0; i <= samples; i++) {
       const { x, y } = shootingHead(candidate, (candidate.life * i) / samples);
       if (x < 0 || y < 0 || x > width || y > height) continue;
-      score += isEmpty(x, y) ? 1 : 0.2;
+      score += isEmpty(x, y) ? 1 : 0.1;
     }
     if (score > bestScore) {
       bestScore = score;
