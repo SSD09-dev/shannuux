@@ -156,7 +156,7 @@ function Index() {
   const [selectedProject, setSelectedProject] = useState<(typeof works)[number] | null>(null);
   useViewportFocusGlow();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <SideNav />
       <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />
       <main className="mx-auto max-w-6xl px-6 pb-32 md:pl-28">
