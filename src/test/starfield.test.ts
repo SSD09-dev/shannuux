@@ -32,7 +32,9 @@ describe("cosmic starfield rules", () => {
 
   it("prefers a path across empty background", () => {
     // Content fills the lower half; the chosen streak should stay in the empty top.
-    const star = pickShootingStar(1280, 800, 0, (_x, y) => y < 400);
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const star = pickShootingStar(1280, 800, 0, (_x, y) => y < 400, rand);
     const mid = shootingHead(star, star.life / 2);
     expect(mid.y).toBeLessThan(400);
   });
