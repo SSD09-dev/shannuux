@@ -16,3 +16,4 @@
 # Cosmic background
 - [x] Add a twinkling starfield with occasional shooting stars behind every page; cursor parallax on desktop, lighter on phones, still for reduced motion.
 - [x] Make shooting stars brighter, longer, more frequent, routed through empty sky and visible through glass content; easy to spot on phones.
+- [x] Adapt shooting stars to every screen size: same look on phone and tablet, bigger streaks on wide desktops, routed through empty space.
