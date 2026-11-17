@@ -22,7 +22,7 @@ export const Route = createFileRoute("/work/kissan-agri-mall")({
 function KissanCaseStudy() {
   const [zoomed, setZoomed] = useState(false);
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen text-foreground">
       <header className="glass sticky top-0 z-40 border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 md:px-8">
           <Button asChild className="press size-11 shrink-0 border border-border bg-surface/70 hover:bg-surface">

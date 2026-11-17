@@ -13,3 +13,5 @@
 - [x] Add device-adaptive spotlight, lift, border glow and press feedback to cards, glass panels, links and buttons.
 - [x] Add the centred-card glow on phones and tablets; respect reduced motion.
 - [x] Fix the active About (smiley) and Contact (globe) dock icons with cut-out details.
+# Cosmic background
+- [x] Add a twinkling starfield with occasional shooting stars behind every page; cursor parallax on desktop, lighter on phones, still for reduced motion.
