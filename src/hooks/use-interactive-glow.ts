@@ -53,15 +53,15 @@ export function useViewportFocusGlow() {
       (entries) =>
         entries.forEach((entry) => {
           const el = entry.target as HTMLElement;
-          if (entry.isIntersecting) el.dataset.inView = "true";
-          else delete el.dataset.inView;
+          if (entry.isIntersecting) el.dataset["inView"] = "true";
+          else delete el.dataset["inView"];
         }),
       { rootMargin: "-40% 0px -40% 0px" },
     );
     cards.forEach((card) => observer.observe(card));
     return () => {
       observer.disconnect();
-      cards.forEach((card) => delete card.dataset.inView);
+      cards.forEach((card) => delete card.dataset["inView"]);
     };
   }, []);
 }
