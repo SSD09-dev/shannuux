@@ -106,6 +106,14 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(1 0 0 / 30%);
   --shadow-glass: inset 0 1px 0 oklch(1 0 0 / 14%), inset 0 -1px 0 oklch(0 0 0 / 40%), 0 30px 60px -20px oklch(0 0 0 / 70%);
+  /* Interactive glow (neutral, follows the monochrome palette). */
+  --ease-glow: cubic-bezier(0.22, 1, 0.36, 1);
+  --glow-spot: oklch(1 0 0 / 9%);
+  --glow-border: oklch(1 0 0 / 32%);
+  --glow-border-soft: oklch(1 0 0 / 18%);
+  --glow-ambient: 0 18px 48px -18px oklch(1 0 0 / 14%), 0 0 0 1px oklch(1 0 0 / 4%);
+  --glow-bloom: 0 0 0 1px oklch(1 0 0 / 14%), 0 0 22px -4px oklch(1 0 0 / 28%);
+  --glow-text: 0 0 18px oklch(1 0 0 / 35%);
   --gradient-panel: linear-gradient(180deg, oklch(0.36 0.005 0) 0%, oklch(0.26 0.006 0) 18%, oklch(0.24 0.006 0) 100%);
 }
 
@@ -133,12 +141,31 @@
 }
 
 @utility glass-hover {
-  transition: background 300ms ease, transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
-  &:hover {
-    background: color-mix(in oklab, var(--color-surface) 55%, transparent);
-    backdrop-filter: blur(24px) saturate(160%);
-    border-color: oklch(1 0 0 / 20%);
-    transform: translateY(-2px);
+  transition:
+    translate 300ms var(--ease-glow),
+    scale 160ms var(--ease-glow),
+    background-color 300ms var(--ease-glow),
+    border-color 300ms var(--ease-glow),
+    box-shadow 300ms var(--ease-glow);
+
+  /* Pointer devices: lift, border illumination, soft ambient glow. */
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: color-mix(in oklab, var(--color-surface) 55%, transparent);
+      border-color: var(--glow-border);
+      box-shadow: var(--shadow-glass), var(--glow-ambient);
+    }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    &:hover { translate: 0 -3px; }
+  }
+
+  /* Touch devices: brief border flash while pressed, nothing sticky afterwards. */
+  @media (hover: none) and (pointer: coarse) {
+    &:active { border-color: var(--glow-border); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active { scale: 0.98; }
   }
 }
 
@@ -198,4 +225,116 @@
 
 @media (prefers-reduced-motion: reduce) {
   .live-dot { animation: none; }
+}
+
+/*
+ * Cursor-tracking spotlight for cards and glass panels.
+ * --mouse-x / --mouse-y are written by usePointerSpotlight (pointer devices only).
+ * ::before lights the frosted surface, ::after is a 1px illuminated border ring.
+ * Do not use on position: fixed elements — this sets position: relative.
+ */
+@utility glow-spot {
+  position: relative;
+  isolation: isolate;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-glow);
+  }
+  &::before {
+    z-index: -1;
+    background: radial-gradient(
+      420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      var(--glow-spot),
+      transparent 65%
+    );
+  }
+  &::after {
+    z-index: 1;
+    padding: 1px;
+    background: radial-gradient(
+      280px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      var(--glow-border),
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before,
+    &:hover::after { opacity: 1; }
+  }
+
+  /* Touch: no tracking. Even ring for the centred card and a flash while pressed. */
+  @media (hover: none) and (pointer: coarse) {
+    &::before { display: none; }
+    &::after { background: var(--glow-border-soft); }
+    &[data-in-view="true"]::after { opacity: 1; }
+    &:active::after { opacity: 1; background: var(--glow-border); transition-duration: 80ms; }
+  }
+}
+
+/* Buttons: crisp bloom + brightness on hover, tactile press. */
+@utility press {
+  transition:
+    scale 160ms var(--ease-glow),
+    box-shadow 300ms var(--ease-glow),
+    filter 300ms var(--ease-glow),
+    background-color 300ms var(--ease-glow),
+    border-color 300ms var(--ease-glow);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { box-shadow: var(--glow-bloom); filter: brightness(1.1); }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    &:active { box-shadow: var(--glow-bloom); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active { scale: 0.98; }
+  }
+}
+
+/* Text links (project titles): soft text glow on hover, tactile press. */
+@utility glow-link {
+  transition: scale 160ms var(--ease-glow), text-shadow 300ms var(--ease-glow), color 300ms var(--ease-glow);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { text-shadow: var(--glow-text); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active { scale: 0.98; }
+  }
+}
+
+/* Navigation dock links. */
+@utility dock-link {
+  transition:
+    scale 300ms var(--ease-glow),
+    background-color 300ms var(--ease-glow),
+    border-color 300ms var(--ease-glow),
+    box-shadow 300ms var(--ease-glow),
+    color 300ms var(--ease-glow);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: var(--color-surface);
+      border-color: var(--glow-border);
+      box-shadow: var(--glow-bloom);
+      color: var(--color-foreground);
+    }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    &:hover { scale: 1.05; }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    &:active { border-color: var(--glow-border); box-shadow: var(--glow-bloom); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active { scale: 0.98; }
+  }
 }
