@@ -328,7 +328,7 @@ function Index() {
               <img src={glassOfWater.url} alt="" className="h-6 w-auto shrink-0 sm:h-9" />
             </p>
             <img
-              src={signature.url}
+              src={signature}
               alt="Signature of Shanmukha Sai"
               className="h-12 w-[284px] object-contain opacity-90"
             />
