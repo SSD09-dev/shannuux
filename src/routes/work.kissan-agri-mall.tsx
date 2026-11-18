@@ -4,7 +4,7 @@ import { ArrowLeft, Globe, Info, Lock, Smile, ZoomIn, ZoomOut } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { kissanPages } from "@/lib/kissan-case-study";
 import { kissan } from "@/lib/kissan";
-import signature from "@/assets/signature.png.asset.json";
+import signature from "@/assets/signature.png";
 import glassOfWater from "@/assets/glass-of-water.png.asset.json";
 
 export const Route = createFileRoute("/work/kissan-agri-mall")({
