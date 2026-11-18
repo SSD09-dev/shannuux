@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/components/project-dialog";
 import { SmileyFilled, GlobeFilled } from "@/components/dock-icons";
 import { useViewportFocusGlow } from "@/hooks/use-interactive-glow";
-import signature from "@/assets/signature.png.asset.json";
+import signature from "@/assets/signature.png";
+
 import glassOfWater from "@/assets/glass-of-water.png.asset.json";
 import hloxpatThumbnail from "@/assets/hloxpat-thumbnail.jpg.asset.json";
 import { hloxpat } from "@/lib/hloxpat";
